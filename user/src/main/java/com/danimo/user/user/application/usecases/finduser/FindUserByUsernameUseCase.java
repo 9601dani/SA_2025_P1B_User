@@ -20,6 +20,7 @@ public class FindUserByUsernameUseCase implements FindingUserByUsernameInputPort
     @Override
     public User findByUsername(String username) throws UserNotFoundException {
         return findingByIdPort.findByUsername(username)
+                .or(() -> findingByIdPort.findByEmail(username))
                 .orElseThrow(() -> new UserNotFoundException(username));
     }
 }

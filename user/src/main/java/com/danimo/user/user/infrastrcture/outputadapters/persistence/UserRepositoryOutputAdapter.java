@@ -33,6 +33,12 @@ public class UserRepositoryOutputAdapter implements FindingUserByUsernameOutputP
                 .map(userPersistenceMapper::toDomain);
     }
 
+    @Override
+    public Optional<User> findByEmail(String email) {
+        return userDbEntityJpaRepository.findByEmail(email)
+                .map(userPersistenceMapper::toDomain);
+    }
+
 
     @Override
     @Transactional(propagation = Propagation.MANDATORY)
