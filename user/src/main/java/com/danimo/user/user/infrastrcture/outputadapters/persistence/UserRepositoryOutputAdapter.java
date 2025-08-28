@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
+import java.util.UUID;
 
 @PersistenceAdapter
 public class UserRepositoryOutputAdapter implements FindingUserByUsernameOutputPort, StoringUserOutputPort {
@@ -34,8 +35,15 @@ public class UserRepositoryOutputAdapter implements FindingUserByUsernameOutputP
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Optional<User> findByEmail(String email) {
         return userDbEntityJpaRepository.findByEmail(email)
+                .map(userPersistenceMapper::toDomain);
+    }
+
+    @Override
+    public Optional<User> findById(String id) {
+        return userDbEntityJpaRepository.findById(UUID.fromString(id))
                 .map(userPersistenceMapper::toDomain);
     }
 

@@ -21,6 +21,8 @@ public class CreateUserDto {
     private String password;
     @Email
     private String email;
+    private String module;
+    private boolean firstTime = true ;
 
     public User toDomain(){
         return User.builder()
@@ -28,6 +30,8 @@ public class CreateUserDto {
                 .username(username)
                 .password(password)
                 .email(email)
+                .module(module)
+                .firstTime(firstTime)
                 .build();
     }
 
@@ -37,6 +41,8 @@ public class CreateUserDto {
                 .username(username)
                 .password(password)
                 .email(email)
+                .module(module)
+                .firstTime(firstTime)
                 .build();
     }
 

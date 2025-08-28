@@ -9,9 +9,10 @@ public class CreateUserRequest {
     private final String username;
     private final String password;
     private final String email;
+    private final String module;
 
     public CreateUserDto toDomain(){
-        return new CreateUserDto(username, password, email);
+        return new CreateUserDto(username, password, email, module);
     }
 
 }

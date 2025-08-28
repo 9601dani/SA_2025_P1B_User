@@ -12,8 +12,9 @@ public class UserResponse {
     private final String username;
     private final String password;
     private final String email;
+    private final String module;
 
     public static UserResponse fromDomain(User user) {
-        return new UserResponse(user.getId(), user.getUsername(), user.getPassword(), user.getEmail());
+        return new UserResponse(user.getId(), user.getUsername(), user.getPassword(), user.getEmail(), user.getModule());
     }
 }

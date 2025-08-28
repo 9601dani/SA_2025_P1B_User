@@ -13,7 +13,6 @@ import java.util.UUID;
 @Entity
 @Table(name = "users")
 @Getter
-@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserDbEntity {
@@ -26,4 +25,8 @@ public class UserDbEntity {
     private String password;
     @Column
     private String email;
+    @Column
+    private String module;
+    @Column
+    private boolean firstTime;
 }

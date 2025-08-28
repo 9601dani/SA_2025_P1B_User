@@ -21,6 +21,7 @@ public class FindUserByUsernameUseCase implements FindingUserByUsernameInputPort
     public User findByUsername(String username) throws UserNotFoundException {
         return findingByIdPort.findByUsername(username)
                 .or(() -> findingByIdPort.findByEmail(username))
+                .or(() -> findingByIdPort.findById(username))
                 .orElseThrow(() -> new UserNotFoundException(username));
     }
 }

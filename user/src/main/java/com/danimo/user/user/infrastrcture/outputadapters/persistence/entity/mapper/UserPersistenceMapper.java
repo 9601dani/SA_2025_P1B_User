@@ -13,7 +13,9 @@ public class UserPersistenceMapper {
         return new User(dbEntity.getId(),
                 dbEntity.getUsername(),
                 dbEntity.getPassword(),
-                dbEntity.getEmail());
+                dbEntity.getEmail(),
+                dbEntity.getModule(),
+                dbEntity.isFirstTime());
     }
 
     public UserDbEntity toDbEntity(User user){
@@ -21,6 +23,8 @@ public class UserPersistenceMapper {
         return new UserDbEntity(user.getId(),
                 user.getUsername(),
                 user.getPassword(),
-                user.getEmail());
+                user.getEmail(),
+                user.getModule(),
+                user.isFirstTime());
     }
 }

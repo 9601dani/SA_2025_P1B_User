@@ -32,6 +32,10 @@ public class CreateUserUseCase implements CreatingUserIputPort {
             throw new UserAlreadyExistsException(userDto.getUsername());
         }
 
+        if(findingUserByUsernameOutputPort.findByEmail(userDto.getEmail()).isPresent()) {
+            throw new UserAlreadyExistsException("Ya existe un usuario con Email",userDto.getEmail());
+        }
+
         String hashedPassword = passwordEncoder.encode(userDto.getPassword());
 
         User newUser = userDto.toDomainPass(hashedPassword);

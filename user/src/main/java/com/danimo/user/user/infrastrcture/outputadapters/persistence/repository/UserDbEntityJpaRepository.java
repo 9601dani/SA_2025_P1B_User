@@ -12,4 +12,5 @@ public interface UserDbEntityJpaRepository extends JpaRepository<UserDbEntity, U
 
     Optional<UserDbEntity> findByUsername(String username);
     Optional<UserDbEntity> findByEmail(String email);
+    Optional<UserDbEntity> findById(UUID uuid);
 }
