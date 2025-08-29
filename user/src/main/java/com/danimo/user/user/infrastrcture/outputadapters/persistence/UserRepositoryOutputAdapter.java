@@ -42,6 +42,7 @@ public class UserRepositoryOutputAdapter implements FindingUserByUsernameOutputP
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Optional<User> findById(String id) {
         return userDbEntityJpaRepository.findById(UUID.fromString(id))
                 .map(userPersistenceMapper::toDomain);

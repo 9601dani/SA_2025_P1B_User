@@ -4,9 +4,7 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import jakarta.websocket.server.ServerEndpoint;
 import lombok.*;
-import org.springframework.web.service.annotation.GetExchange;
 
 import java.util.UUID;
 
@@ -15,6 +13,7 @@ import java.util.UUID;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class UserDbEntity {
 
     @Id
@@ -29,4 +28,5 @@ public class UserDbEntity {
     private String module;
     @Column
     private boolean firstTime;
+
 }

@@ -4,8 +4,11 @@ import com.danimo.user.common.application.annotations.UseCase;
 import com.danimo.user.common.application.exceptions.UserAlreadyExistsException;
 import com.danimo.user.user.application.inputports.CreatingUserIputPort;
 import com.danimo.user.user.application.outputports.persistence.FindingUserByUsernameOutputPort;
+import com.danimo.user.information.application.outputports.persistence.StoringUserInformationOutputPort;
 import com.danimo.user.user.application.outputports.persistence.StoringUserOutputPort;
+import com.danimo.user.information.application.usecases.createuserinformation.CreateUserInformationDto;
 import com.danimo.user.user.domain.User;
+import com.danimo.user.information.domain.UserInformation;
 import com.danimo.user.user.infrastrcture.outputadapters.security.BCryptPasswordEncoderAdapter;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
@@ -17,12 +20,16 @@ public class CreateUserUseCase implements CreatingUserIputPort {
     private final StoringUserOutputPort storingUserOutputPort;
     private final FindingUserByUsernameOutputPort findingUserByUsernameOutputPort;
     private final BCryptPasswordEncoderAdapter passwordEncoder;
+    private final StoringUserInformationOutputPort storingUserInformationOutputPort;
 
-    public CreateUserUseCase(StoringUserOutputPort storingUserOutputPort, FindingUserByUsernameOutputPort findingUserByUsernameOutputPort
-    , BCryptPasswordEncoderAdapter passwordEncoder) {
+    public CreateUserUseCase(StoringUserOutputPort storingUserOutputPort,
+                             FindingUserByUsernameOutputPort findingUserByUsernameOutputPort,
+                             BCryptPasswordEncoderAdapter passwordEncoder,
+                             StoringUserInformationOutputPort storingUserInformationOutputPort) {
         this.storingUserOutputPort = storingUserOutputPort;
         this.findingUserByUsernameOutputPort = findingUserByUsernameOutputPort;
         this.passwordEncoder = passwordEncoder;
+        this.storingUserInformationOutputPort = storingUserInformationOutputPort;
     }
 
     @Override
@@ -40,6 +47,13 @@ public class CreateUserUseCase implements CreatingUserIputPort {
 
         User newUser = userDto.toDomainPass(hashedPassword);
 
-        return storingUserOutputPort.save(newUser);
+        User userSaved = storingUserOutputPort.save(newUser);
+
+        if(userSaved != null) {
+            UserInformation newUserInformation = new CreateUserInformationDto(userDto.getSalaryPerWeek(),userSaved.getId()).toDomain();
+            storingUserInformationOutputPort.save(newUserInformation);
+        }
+
+        return userSaved;
     }
 }

@@ -7,11 +7,11 @@ import lombok.AllArgsConstructor;
 import lombok.Setter;
 import lombok.Value;
 
+import java.math.BigDecimal;
 import java.util.UUID;
 
 @Value
 @AllArgsConstructor
-@Setter
 public class CreateUserDto {
 
 
@@ -23,6 +23,7 @@ public class CreateUserDto {
     private String email;
     private String module;
     private boolean firstTime = true ;
+    private BigDecimal salaryPerWeek;
 
     public User toDomain(){
         return User.builder()
