@@ -13,9 +13,10 @@ public class CreateUserRequest {
     private final String email;
     private final String module;
     private final BigDecimal salaryPerWeek;
+    private final boolean isAdmin;
 
     public CreateUserDto toDomain(){
-        return new CreateUserDto(username, password, email, module, salaryPerWeek);
+        return new CreateUserDto(username, password, email, module, salaryPerWeek,isAdmin);
     }
 
 }

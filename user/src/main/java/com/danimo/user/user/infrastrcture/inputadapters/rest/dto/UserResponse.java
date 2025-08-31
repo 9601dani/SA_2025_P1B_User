@@ -13,8 +13,13 @@ public class UserResponse {
     private final String password;
     private final String email;
     private final String module;
+    private final boolean firstTime;
+    private final boolean manager;
+    private final boolean enabled;
+
 
     public static UserResponse fromDomain(User user) {
-        return new UserResponse(user.getId(), user.getUsername(), user.getPassword(), user.getEmail(), user.getModule());
+        return new UserResponse(user.getId(), user.getUsername(), user.getPassword(), user.getEmail(), user.getModule(), user.isFirstTime(),
+                user.isManager(), user.isEnabled());
     }
 }

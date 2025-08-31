@@ -24,6 +24,7 @@ public class CreateUserDto {
     private String module;
     private boolean firstTime = true ;
     private BigDecimal salaryPerWeek;
+    private boolean manager;
 
     public User toDomain(){
         return User.builder()
@@ -33,6 +34,7 @@ public class CreateUserDto {
                 .email(email)
                 .module(module)
                 .firstTime(firstTime)
+                .manager(manager)
                 .build();
     }
 
@@ -44,6 +46,8 @@ public class CreateUserDto {
                 .email(email)
                 .module(module)
                 .firstTime(firstTime)
+                .manager(manager)
+                .enabled(true)
                 .build();
     }
 

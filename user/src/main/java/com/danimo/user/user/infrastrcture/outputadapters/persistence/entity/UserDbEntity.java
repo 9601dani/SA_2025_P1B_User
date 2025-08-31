@@ -28,5 +28,9 @@ public class UserDbEntity {
     private String module;
     @Column
     private boolean firstTime;
+    @Column
+    private boolean manager;
+    @Column
+    private boolean enabled;
 
 }

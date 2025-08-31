@@ -1,13 +1,17 @@
 package com.danimo.user.user.infrastrcture.inputadapters.rest;
 
 import com.danimo.user.common.infrastructure.annotations.WebAdapter;
+import com.danimo.user.information.application.inputports.UpdatingUserInformationInputPort;
 import com.danimo.user.user.application.inputports.CreatingUserIputPort;
 import com.danimo.user.user.application.inputports.FindingUserByUsernameInputPort;
+import com.danimo.user.user.application.inputports.UpdatingEnabledStateInputPort;
+import com.danimo.user.user.application.outputports.persistence.FindingAllEmployesOutputPort;
+import com.danimo.user.user.application.outputports.persistence.FindingUserByUsernameOutputPort;
+import com.danimo.user.user.application.outputports.persistence.UpdatingEnabledStateOutputPort;
 import com.danimo.user.user.application.usecases.createuser.CreateUserDto;
+import com.danimo.user.user.application.usecases.updateenabled.UpdateEnabledStateDto;
 import com.danimo.user.user.domain.User;
-import com.danimo.user.user.infrastrcture.inputadapters.rest.dto.CreateUserRequest;
-import com.danimo.user.user.infrastrcture.inputadapters.rest.dto.CreatedUserResponse;
-import com.danimo.user.user.infrastrcture.inputadapters.rest.dto.UserResponse;
+import com.danimo.user.user.infrastrcture.inputadapters.rest.dto.*;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.headers.Header;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -22,6 +26,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+import java.util.Optional;
+
 @Tag(name = "Users", description = "Operaciones relacionadas a los usuarios")
 @RestController
 @RequestMapping("/v1/users")
@@ -30,11 +37,16 @@ public class UserControllerAdapter {
 
     private final FindingUserByUsernameInputPort findingUserByUsernameInputPort;
     private final CreatingUserIputPort creatingUserIputPort;
+    private final FindingAllEmployesOutputPort findingAllEmployes;
+    private final UpdatingEnabledStateInputPort updatingEnabledStateInputPort ;
 
     @Autowired
-    public UserControllerAdapter(FindingUserByUsernameInputPort findingUserByUsernameInputPort, CreatingUserIputPort creatingUserIputPort) {
+    public UserControllerAdapter(FindingUserByUsernameInputPort findingUserByUsernameInputPort, CreatingUserIputPort creatingUserIputPort
+    , FindingAllEmployesOutputPort findingAllEmployes, UpdatingEnabledStateInputPort updatingEnabledStateInputPort) {
         this.findingUserByUsernameInputPort = findingUserByUsernameInputPort;
         this.creatingUserIputPort = creatingUserIputPort;
+        this.findingAllEmployes = findingAllEmployes;
+        this.updatingEnabledStateInputPort = updatingEnabledStateInputPort;
     }
 
     @Operation(
@@ -112,5 +124,39 @@ public class UserControllerAdapter {
         User user = findingUserByUsernameInputPort.findByUsername(username);
         return ResponseEntity.ok(UserResponse.fromDomain(user));
     }
+
+    @Operation(
+            summary = "Listar todos los usuarios",
+            description = "Devuelve la información de todos los usuarios (empleaados)."
+    )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Usuarios encontrados"),
+            @ApiResponse(responseCode = "404", description = "Usuarios no encontrados")
+    })
+    @GetMapping("")
+    public ResponseEntity<List<UserListResponse>> findAllUsers() {
+        List<User> users = this.findingAllEmployes.findAllEmployes();
+        return ResponseEntity.ok(users
+                .stream()
+                .map(UserListResponse::fromDomain)
+                .toList());
+    }
+
+    @Operation(
+            summary = "Cambiar estado del enabled de usuario",
+            description = "No devuelve nada"
+    )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Se actualizo"),
+            @ApiResponse(responseCode = "404", description = "No se actualizo")
+    })
+    @PutMapping
+    public ResponseEntity<UserListResponse> updateEnabledState(@RequestBody UpdateUserEnabledStateRequest dto){
+        User user = this.updatingEnabledStateInputPort.updateEnabledState(dto.toDomain());
+
+        return ResponseEntity.ok(UserListResponse.fromDomain(user));
+    }
+
+
 
 }

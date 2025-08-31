@@ -1,8 +1,8 @@
 package com.danimo.user.user.infrastrcture.outputadapters.persistence;
 
 import com.danimo.user.common.infrastructure.annotations.PersistenceAdapter;
-import com.danimo.user.user.application.outputports.persistence.FindingUserByUsernameOutputPort;
-import com.danimo.user.user.application.outputports.persistence.StoringUserOutputPort;
+import com.danimo.user.user.application.outputports.persistence.*;
+import com.danimo.user.user.application.usecases.updateenabled.UpdateEnabledStateDto;
 import com.danimo.user.user.domain.User;
 import com.danimo.user.user.infrastrcture.outputadapters.persistence.entity.UserDbEntity;
 import com.danimo.user.user.infrastrcture.outputadapters.persistence.entity.mapper.UserPersistenceMapper;
@@ -11,11 +11,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
 @PersistenceAdapter
-public class UserRepositoryOutputAdapter implements FindingUserByUsernameOutputPort, StoringUserOutputPort {
+public class UserRepositoryOutputAdapter implements FindingUserByUsernameOutputPort, StoringUserOutputPort, DeletingOldUserOutputPort
+, FindingAllEmployesOutputPort, UpdatingEnabledStateOutputPort {
 
     private final UserDbEntityJpaRepository userDbEntityJpaRepository;
     private final UserPersistenceMapper userPersistenceMapper;
@@ -55,5 +57,26 @@ public class UserRepositoryOutputAdapter implements FindingUserByUsernameOutputP
         UserDbEntity savedUserDbEntity = userDbEntityJpaRepository.save(userPersistenceMapper.toDbEntity(user));
 
         return userPersistenceMapper.toDomain(savedUserDbEntity);
+    }
+
+    @Override
+    public void deleteById(String id) {
+        this.userDbEntityJpaRepository.deleteById(UUID.fromString(id));
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<User> findAllEmployes() {
+        return userDbEntityJpaRepository.findAll()
+                .stream()
+                .map(userPersistenceMapper::toDomain)
+                .toList();
+    }
+
+    @Override
+    public Optional<User> updateEnabledState(UpdateEnabledStateDto dto) {
+        return userDbEntityJpaRepository.findByUsername(dto.username())
+                .map(userPersistenceMapper::toDomain);
+
     }
 }

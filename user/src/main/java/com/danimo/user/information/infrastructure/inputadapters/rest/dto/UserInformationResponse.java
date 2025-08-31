@@ -22,10 +22,9 @@ public class UserInformationResponse {
     private UserResponseUserInformation userInformation;
 
     public static UserInformationResponse fromDomain(UserInformation userInformation) {
-        return new UserInformationResponse(userInformation.getId(), userInformation.getName(), userInformation.getLastName(),
+        return new UserInformationResponse(userInformation.getUser().getId(), userInformation.getName(), userInformation.getLastName(),
                 userInformation.getSalaryPerWeek(), userInformation.getCreatedAt(), userInformation.getBirthdate(),
-                new UserResponseUserInformation(userInformation.getUser().getId(), userInformation.getUser().getUsername(),
-                        userInformation.getUser().getEmail()));
+                UserResponseUserInformation.fromDomain(userInformation.getUser()));
     }
 
 }

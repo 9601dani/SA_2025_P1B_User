@@ -13,6 +13,7 @@ import java.util.UUID;
 @DomainEntity
 @AllArgsConstructor
 @Builder
+@Setter
 public class User {
     private UUID id;
     private String username;
@@ -20,6 +21,8 @@ public class User {
     private String email;
     private String module;
     private boolean firstTime;
+    private boolean manager;
+    private boolean enabled;
 
 
 

@@ -9,13 +9,14 @@ public class UserPersistenceMapper {
 
     public User toDomain(UserDbEntity dbEntity){
         if (dbEntity == null) return null;
-
         return new User(dbEntity.getId(),
                 dbEntity.getUsername(),
                 dbEntity.getPassword(),
                 dbEntity.getEmail(),
                 dbEntity.getModule(),
-                dbEntity.isFirstTime());
+                dbEntity.isFirstTime(),
+                dbEntity.isManager(),
+                dbEntity.isEnabled());
     }
 
     public UserDbEntity toDbEntity(User user){
@@ -25,6 +26,8 @@ public class UserPersistenceMapper {
                 user.getPassword(),
                 user.getEmail(),
                 user.getModule(),
-                user.isFirstTime());
+                user.isFirstTime(),
+                user.isManager(),
+                user.isEnabled());
     }
 }

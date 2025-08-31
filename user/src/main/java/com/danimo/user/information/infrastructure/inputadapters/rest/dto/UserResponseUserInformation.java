@@ -11,8 +11,9 @@ public class UserResponseUserInformation {
     private final UUID id;
     private final String username;
     private final String email;
+    private final boolean firstTime;
 
     public static UserResponseUserInformation fromDomain(User user) {
-        return new UserResponseUserInformation(user.getId(), user.getUsername(), user.getEmail());
+        return new UserResponseUserInformation(user.getId(), user.getUsername(), user.getEmail(), user.isFirstTime());
     }
 }

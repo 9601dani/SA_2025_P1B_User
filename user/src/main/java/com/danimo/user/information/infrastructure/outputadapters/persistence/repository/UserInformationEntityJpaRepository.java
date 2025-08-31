@@ -11,4 +11,6 @@ import java.util.UUID;
 public interface UserInformationEntityJpaRepository extends JpaRepository<UserInformationDbEntity, UUID> {
 
     Optional<UserInformationDbEntity> findByUser_Id(UUID userId);
+
+    void deleteByUser_Id(UUID userId);
 }

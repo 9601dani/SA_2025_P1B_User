@@ -1,6 +1,7 @@
 package com.danimo.user.information.infrastructure.outputadapters.persistence;
 
 import com.danimo.user.common.infrastructure.annotations.PersistenceAdapter;
+import com.danimo.user.information.application.outputports.persistence.DeletingOldInfo;
 import com.danimo.user.information.application.outputports.persistence.FindingUserInformationOutputPort;
 import com.danimo.user.information.application.outputports.persistence.StoringUserInformationOutputPort;
 import com.danimo.user.information.domain.UserInformation;
@@ -16,7 +17,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @PersistenceAdapter
-public class UserInformationRepositoryOutputAdapter implements StoringUserInformationOutputPort, FindingUserInformationOutputPort {
+public class UserInformationRepositoryOutputAdapter implements StoringUserInformationOutputPort, FindingUserInformationOutputPort, DeletingOldInfo {
 
     private final UserInformationEntityJpaRepository userInformationEntityJpaRepository;
     private final UserInformationPersistenceMapper userInformationPersistenceMapper;
@@ -42,5 +43,11 @@ public class UserInformationRepositoryOutputAdapter implements StoringUserInform
     public Optional<UserInformation> findUserInformationByUserId(UUID userId) {
         return userInformationEntityJpaRepository.findByUser_Id(userId)
                 .map(userInformationPersistenceMapper::toDomain);
+    }
+
+
+    @Override
+    public void deleteOldInfoByUserId(UUID userId) {
+        userInformationEntityJpaRepository.deleteByUser_Id(userId);
     }
 }

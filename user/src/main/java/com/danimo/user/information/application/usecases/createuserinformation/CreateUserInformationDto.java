@@ -1,5 +1,6 @@
 package com.danimo.user.information.application.usecases.createuserinformation;
 
+import com.danimo.user.information.domain.UserInformationId;
 import com.danimo.user.user.domain.User;
 import com.danimo.user.information.domain.UserInformation;
 import lombok.AllArgsConstructor;
@@ -18,7 +19,7 @@ public class CreateUserInformationDto {
 
     public UserInformation toDomain(){
         return UserInformation.builder()
-                .id(UUID.randomUUID())
+                .id(UserInformationId.generate())
                 .createdAt(LocalDateTime.now())
                 .salaryPerWeek(salaryPerWeek)
                 .user(User.builder().id(userId).build())

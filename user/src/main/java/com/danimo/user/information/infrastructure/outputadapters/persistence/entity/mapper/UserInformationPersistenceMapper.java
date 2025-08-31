@@ -1,5 +1,6 @@
 package com.danimo.user.information.infrastructure.outputadapters.persistence.entity.mapper;
 
+import com.danimo.user.information.domain.UserInformationId;
 import com.danimo.user.user.domain.User;
 import com.danimo.user.information.domain.UserInformation;
 import com.danimo.user.user.infrastrcture.outputadapters.persistence.entity.UserDbEntity;
@@ -12,7 +13,8 @@ public class UserInformationPersistenceMapper {
     public UserInformation toDomain(UserInformationDbEntity dbEntity){
         if(dbEntity == null) return null;
 
-        return new UserInformation(dbEntity.getId(),
+        return new UserInformation(
+                UserInformationId.fromUUID(dbEntity.getId()),
                 dbEntity.getName(),
                 dbEntity.getLastName(),
                 dbEntity.getSalaryPerWeek(),
@@ -24,14 +26,17 @@ public class UserInformationPersistenceMapper {
                         dbEntity.getUser().getPassword(),
                         dbEntity.getUser().getEmail(),
                         dbEntity.getUser().getModule(),
-                        dbEntity.getUser().isFirstTime()
+                        dbEntity.getUser().isFirstTime(),
+                        dbEntity.getUser().isManager(),
+                        dbEntity.getUser().isEnabled()
                 ));
     }
 
     public UserInformationDbEntity toDbEntity(UserInformation userInformation){
         if(userInformation == null) return null;
 
-        return new UserInformationDbEntity(userInformation.getId(),
+        return new UserInformationDbEntity(
+                UserInformationId.toUUID(userInformation.getId()),
                 userInformation.getName(),
                 userInformation.getLastName(),
                 userInformation.getSalaryPerWeek(),
@@ -43,7 +48,9 @@ public class UserInformationPersistenceMapper {
                         userInformation.getUser().getPassword(),
                         userInformation.getUser().getEmail(),
                         userInformation.getUser().getModule(),
-                        userInformation.getUser().isFirstTime()
+                        userInformation.getUser().isFirstTime(),
+                        userInformation.getUser().isManager(),
+                        userInformation.getUser().isEnabled()
                 ));
     }
 }

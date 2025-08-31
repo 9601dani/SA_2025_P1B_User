@@ -21,9 +21,7 @@ public class FindUserInformationUseCase implements FindingUserInformationInputPo
 
     @Override
     public UserInformation findUserInformationByUserId(String userId) throws UserNotFoundException {
-        UserInformation userInformation =  this.findingUserInformationOutputPort.findUserInformationByUserId(UUID.fromString(userId))
+        return this.findingUserInformationOutputPort.findUserInformationByUserId(UUID.fromString(userId))
                 .orElseThrow(() -> new UserNotFoundException("Usuario no encontrado"));
-
-        return userInformation;
     }
 }
