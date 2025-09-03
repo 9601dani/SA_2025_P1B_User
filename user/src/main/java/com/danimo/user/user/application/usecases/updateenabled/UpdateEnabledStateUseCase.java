@@ -1,6 +1,7 @@
 package com.danimo.user.user.application.usecases.updateenabled;
 
 import com.danimo.user.common.application.annotations.UseCase;
+import com.danimo.user.common.application.exceptions.InactiveAccountException;
 import com.danimo.user.common.application.exceptions.UserNotFoundException;
 import com.danimo.user.user.application.inputports.UpdatingEnabledStateInputPort;
 import com.danimo.user.user.application.outputports.persistence.StoringUserOutputPort;

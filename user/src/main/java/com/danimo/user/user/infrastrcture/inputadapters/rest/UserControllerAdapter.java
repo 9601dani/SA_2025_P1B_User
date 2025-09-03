@@ -1,5 +1,6 @@
 package com.danimo.user.user.infrastrcture.inputadapters.rest;
 
+import com.danimo.user.common.application.exceptions.InactiveAccountException;
 import com.danimo.user.common.infrastructure.annotations.WebAdapter;
 import com.danimo.user.information.application.inputports.UpdatingUserInformationInputPort;
 import com.danimo.user.user.application.inputports.CreatingUserIputPort;
@@ -122,6 +123,7 @@ public class UserControllerAdapter {
     @GetMapping("/{username}")
     public ResponseEntity<UserResponse> findingUserByUsername(@PathVariable String username) {
         User user = findingUserByUsernameInputPort.findByUsername(username);
+
         return ResponseEntity.ok(UserResponse.fromDomain(user));
     }
 
@@ -153,6 +155,10 @@ public class UserControllerAdapter {
     @PutMapping
     public ResponseEntity<UserListResponse> updateEnabledState(@RequestBody UpdateUserEnabledStateRequest dto){
         User user = this.updatingEnabledStateInputPort.updateEnabledState(dto.toDomain());
+
+        if(!user.isEnabled()){
+            throw new InactiveAccountException("El usuario: "+ user.getUsername()+" esta inactivado, Favor contacta con un Administador");
+        }
 
         return ResponseEntity.ok(UserListResponse.fromDomain(user));
     }

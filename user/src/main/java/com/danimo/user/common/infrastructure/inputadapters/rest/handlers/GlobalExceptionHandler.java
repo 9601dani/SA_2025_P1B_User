@@ -1,6 +1,7 @@
 package com.danimo.user.common.infrastructure.inputadapters.rest.handlers;
 
 import com.danimo.user.common.application.exceptions.CredentialsDoesntSame;
+import com.danimo.user.common.application.exceptions.InactiveAccountException;
 import com.danimo.user.common.application.exceptions.UserAlreadyExistsException;
 import com.danimo.user.common.application.exceptions.UserNotFoundException;
 import com.danimo.user.common.infrastructure.inputadapters.rest.dto.RestApiError;
@@ -67,5 +68,12 @@ public class GlobalExceptionHandler {
         return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST)
                 .body(new RestApiError(HttpStatus.BAD_REQUEST.value(), ex.getMessage()));
+    }
+
+    @ExceptionHandler(InactiveAccountException.class)
+    public ResponseEntity<RestApiError> handleCredentialsDoesntSame(InactiveAccountException ex) {
+        return ResponseEntity
+                .status(HttpStatus.LOCKED)
+                .body(new RestApiError(HttpStatus.LOCKED.value(), ex.getMessage()));
     }
 }
