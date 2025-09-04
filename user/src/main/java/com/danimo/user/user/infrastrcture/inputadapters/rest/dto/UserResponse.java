@@ -16,10 +16,11 @@ public class UserResponse {
     private final boolean firstTime;
     private final boolean manager;
     private final boolean enabled;
+    private final String locationId;
 
 
     public static UserResponse fromDomain(User user) {
         return new UserResponse(user.getId(), user.getUsername(), user.getPassword(), user.getEmail(), user.getModule(), user.isFirstTime(),
-                user.isManager(), user.isEnabled());
+                user.isManager(), user.isEnabled(), user.getLocationId().toString());
     }
 }

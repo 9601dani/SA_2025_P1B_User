@@ -23,6 +23,7 @@ public class User {
     private boolean firstTime;
     private boolean manager;
     private boolean enabled;
+    private UUID locationId;
 
 
 

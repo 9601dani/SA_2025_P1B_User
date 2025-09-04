@@ -1,4 +1,4 @@
-INSERT INTO users (id, username, email, password, module, first_time, manager, enabled)
+INSERT INTO users (id, username, email, password, module, first_time, manager, enabled, location_id)
 VALUES ('44f7dc96-003a-4bb3-8c4d-dfbf04c42729',
         'admin',
         'admin@correo.com',
@@ -6,9 +6,10 @@ VALUES ('44f7dc96-003a-4bb3-8c4d-dfbf04c42729',
         'ADMIN',
         true,
         true,
-        true);
+        true,
+        '123e4567-e89b-12d3-a456-426614174001');
 
-INSERT INTO users (id, username, email, password, module, first_time, manager, enabled)
+INSERT INTO users (id, username, email, password, module, first_time, manager, enabled, location_id)
 VALUES ('44f7dc96-003a-4bb3-8c4d-dfbf04c42720',
         'admin1',
         'admin1@correo.com',
@@ -16,9 +17,10 @@ VALUES ('44f7dc96-003a-4bb3-8c4d-dfbf04c42720',
         'RESTAURANT',
         true,
         true,
-        true);
+        true,
+        '550e8400-e29b-41d4-a716-446655440000');
 
-INSERT INTO users (id, username, email, password, module, first_time, manager, enabled)
+INSERT INTO users (id, username, email, password, module, first_time, manager, enabled, location_id)
 VALUES ('44f7dc96-003a-4bb3-8c4d-dfbf04c42721',
         'admin2',
         'admin2@correo.com',
@@ -26,7 +28,8 @@ VALUES ('44f7dc96-003a-4bb3-8c4d-dfbf04c42721',
         'HOTEL',
         true,
         true,
-        true);
+        true,
+        '123e4567-e89b-12d3-a456-426614174002');
 
 INSERT INTO user_information (id, name, last_name, salary_per_week, created_at, birthdate, FK_User)
 VALUES ('55a8b7de-12cd-4f68-9012-b02f11a12d33',

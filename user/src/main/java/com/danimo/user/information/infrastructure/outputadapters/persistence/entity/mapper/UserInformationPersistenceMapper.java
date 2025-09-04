@@ -28,7 +28,8 @@ public class UserInformationPersistenceMapper {
                         dbEntity.getUser().getModule(),
                         dbEntity.getUser().isFirstTime(),
                         dbEntity.getUser().isManager(),
-                        dbEntity.getUser().isEnabled()
+                        dbEntity.getUser().isEnabled(),
+                        dbEntity.getUser().getLocationId()
                 ));
     }
 
@@ -50,7 +51,8 @@ public class UserInformationPersistenceMapper {
                         userInformation.getUser().getModule(),
                         userInformation.getUser().isFirstTime(),
                         userInformation.getUser().isManager(),
-                        userInformation.getUser().isEnabled()
+                        userInformation.getUser().isEnabled(),
+                        userInformation.getUser().getLocationId()
                 ));
     }
 }

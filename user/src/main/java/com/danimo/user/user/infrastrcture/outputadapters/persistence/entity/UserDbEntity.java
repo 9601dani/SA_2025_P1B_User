@@ -32,5 +32,7 @@ public class UserDbEntity {
     private boolean manager;
     @Column
     private boolean enabled;
+    @Column
+    private UUID locationId;
 
 }

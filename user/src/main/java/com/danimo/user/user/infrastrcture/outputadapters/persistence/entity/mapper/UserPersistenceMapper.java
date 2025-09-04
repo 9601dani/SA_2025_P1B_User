@@ -16,7 +16,8 @@ public class UserPersistenceMapper {
                 dbEntity.getModule(),
                 dbEntity.isFirstTime(),
                 dbEntity.isManager(),
-                dbEntity.isEnabled());
+                dbEntity.isEnabled(),
+                dbEntity.getLocationId());
     }
 
     public UserDbEntity toDbEntity(User user){
@@ -28,6 +29,7 @@ public class UserPersistenceMapper {
                 user.getModule(),
                 user.isFirstTime(),
                 user.isManager(),
-                user.isEnabled());
+                user.isEnabled(),
+                user.getLocationId());
     }
 }

@@ -25,6 +25,7 @@ public class CreateUserDto {
     private boolean firstTime = true ;
     private BigDecimal salaryPerWeek;
     private boolean manager;
+    private UUID locationId;
 
     public User toDomain(){
         return User.builder()
@@ -35,6 +36,7 @@ public class CreateUserDto {
                 .module(module)
                 .firstTime(firstTime)
                 .manager(manager)
+                .locationId(locationId)
                 .build();
     }
 
@@ -48,6 +50,7 @@ public class CreateUserDto {
                 .firstTime(firstTime)
                 .manager(manager)
                 .enabled(true)
+                .locationId(locationId)
                 .build();
     }
 
