@@ -1,6 +1,7 @@
 package com.danimo.user.user.infrastrcture.inputadapters.rest;
 
 import com.danimo.user.common.application.exceptions.InactiveAccountException;
+import com.danimo.user.common.application.exceptions.UserNotFoundException;
 import com.danimo.user.common.infrastructure.annotations.WebAdapter;
 import com.danimo.user.information.application.inputports.UpdatingUserInformationInputPort;
 import com.danimo.user.user.application.inputports.CreatingUserIputPort;
@@ -29,6 +30,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Tag(name = "Users", description = "Operaciones relacionadas a los usuarios")
 @RestController
@@ -121,6 +123,7 @@ public class UserControllerAdapter {
             @ApiResponse(responseCode = "404", description = "Usuario no encontrado")
     })
     @GetMapping("/{username}")
+    @Transactional
     public ResponseEntity<UserResponse> findingUserByUsername(@PathVariable String username) {
         User user = findingUserByUsernameInputPort.findByUsername(username);
 
@@ -135,7 +138,8 @@ public class UserControllerAdapter {
             @ApiResponse(responseCode = "200", description = "Usuarios encontrados"),
             @ApiResponse(responseCode = "404", description = "Usuarios no encontrados")
     })
-    @GetMapping("")
+    @GetMapping
+    @Transactional
     public ResponseEntity<List<UserListResponse>> findAllUsers() {
         List<User> users = this.findingAllEmployes.findAllEmployes();
         return ResponseEntity.ok(users
@@ -153,6 +157,7 @@ public class UserControllerAdapter {
             @ApiResponse(responseCode = "404", description = "No se actualizo")
     })
     @PutMapping
+    @Transactional
     public ResponseEntity<UserListResponse> updateEnabledState(@RequestBody UpdateUserEnabledStateRequest dto){
         User user = this.updatingEnabledStateInputPort.updateEnabledState(dto.toDomain());
 
@@ -163,6 +168,22 @@ public class UserControllerAdapter {
         return ResponseEntity.ok(UserListResponse.fromDomain(user));
     }
 
-
+    @Operation(
+            summary = "Verificar existencia del usuario (empleado)",
+            description = "Devuelve si existe o no."
+    )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Usuario encontrado"),
+            @ApiResponse(responseCode = "404", description = "Usuario no encontrado")
+    })
+    @RequestMapping(method = RequestMethod.HEAD, path = "/check/{id}")
+    public ResponseEntity<Void> checkLocationExistence(@PathVariable String id) {
+        try {
+            findingUserByUsernameInputPort.findByUsername(id);
+            return ResponseEntity.ok().build();
+        } catch (UserNotFoundException e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
 
 }

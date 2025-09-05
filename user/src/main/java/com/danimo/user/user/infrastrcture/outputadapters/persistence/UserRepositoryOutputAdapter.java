@@ -60,6 +60,7 @@ public class UserRepositoryOutputAdapter implements FindingUserByUsernameOutputP
     }
 
     @Override
+    @Transactional(propagation = Propagation.MANDATORY)
     public void deleteById(String id) {
         this.userDbEntityJpaRepository.deleteById(UUID.fromString(id));
     }
@@ -74,6 +75,7 @@ public class UserRepositoryOutputAdapter implements FindingUserByUsernameOutputP
     }
 
     @Override
+    @Transactional(propagation = Propagation.MANDATORY)
     public Optional<User> updateEnabledState(UpdateEnabledStateDto dto) {
         return userDbEntityJpaRepository.findByUsername(dto.username())
                 .map(userPersistenceMapper::toDomain);

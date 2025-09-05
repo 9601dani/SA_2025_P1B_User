@@ -47,6 +47,7 @@ public class UserInformationRepositoryOutputAdapter implements StoringUserInform
 
 
     @Override
+    @Transactional(propagation = Propagation.MANDATORY)
     public void deleteOldInfoByUserId(UUID userId) {
         userInformationEntityJpaRepository.deleteByUser_Id(userId);
     }
