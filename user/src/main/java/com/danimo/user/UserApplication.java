@@ -17,7 +17,7 @@ public class UserApplication {
 	@Bean("LocationRestApi")
 	public RestClient restClient() {
 		return RestClient.builder()
-				.baseUrl("http://localhost:8000/v1/locations/check/")
+				.baseUrl("http://localhost:8000/v1/locations")
 				.build();
 	}
 }

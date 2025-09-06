@@ -22,7 +22,7 @@ public class LocationRestApiOutputAdapter implements ExistLocationOutputPort {
     public boolean existLocation(UUID locationId) {
         try {
             locationRestClient.head()
-                    .uri(locationId.toString())
+                    .uri("/check/{id}",locationId.toString())
                     .retrieve()
                     .toBodilessEntity();
 
