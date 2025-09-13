@@ -19,6 +19,7 @@ import java.util.UUID;
 public class UserInformationDbEntity {
 
     @Id
+    @Column(columnDefinition = "CHAR(36)")
     private UUID id;
     @Column
     private String name;

@@ -1,5 +1,6 @@
 package com.danimo.user;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -10,6 +11,9 @@ import org.springframework.web.client.RestClient;
 @EnableTransactionManagement
 public class UserApplication {
 
+	@Value("${LOCATION_ROUTE_URI:http://localhost:8004}")
+	private String locationRouteUri;
+
 	public static void main(String[] args) {
 		SpringApplication.run(UserApplication.class, args);
 	}
@@ -17,7 +21,7 @@ public class UserApplication {
 	@Bean("LocationRestApi")
 	public RestClient restClient() {
 		return RestClient.builder()
-				.baseUrl("http://localhost:8000/v1/locations")
+				.baseUrl(locationRouteUri + "/v1/locations")
 				.build();
 	}
 }

@@ -5,6 +5,7 @@ import lombok.Value;
 
 @Value
 public class UserListResponse {
+    private final String id;
     private final String username;
     private final String email;
     private final String module;
@@ -13,6 +14,6 @@ public class UserListResponse {
     private final String locationId;
 
     public static UserListResponse fromDomain(User user) {
-        return new UserListResponse(user.getUsername(), user.getEmail(), user.getModule(), user.isManager(), user.isEnabled(), user.getLocationId().toString());
+        return new UserListResponse(user.getId().toString(), user.getUsername(), user.getEmail(), user.getModule(), user.isManager(), user.isEnabled(), user.getLocationId().toString());
     }
 }

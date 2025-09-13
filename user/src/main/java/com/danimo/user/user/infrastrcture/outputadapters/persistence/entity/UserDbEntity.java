@@ -17,6 +17,7 @@ import java.util.UUID;
 public class UserDbEntity {
 
     @Id
+    @Column(columnDefinition = "CHAR(36)")
     private UUID id;
     @Column
     private String username;
@@ -32,7 +33,7 @@ public class UserDbEntity {
     private boolean manager;
     @Column
     private boolean enabled;
-    @Column
+    @Column(columnDefinition = "CHAR(36)")
     private UUID locationId;
 
 }
