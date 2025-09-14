@@ -19,7 +19,7 @@ pipeline {
 
         stage('Build & Test') {
             steps {
-                dif('user'){
+                dir('user'){
                     sh './mvnw clean install'
                 }
             }
