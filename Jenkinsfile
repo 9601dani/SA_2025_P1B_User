@@ -19,15 +19,17 @@ pipeline {
 
         stage('Build & Test') {
             steps {
-                echo "Construyendo y ejecutando tests con Maven..."
-                sh 'mvn clean verify'
+                dif('user'){
+                    sh './mvnw clean install'
+                }
             }
         }
 
         stage('Verify Jacoco Exec') {
             steps {
-                echo "Verificando archivos .exec generados por Jacoco..."
-                sh 'ls -l target'
+                dir('user/target') {
+                    sh 'ls -l'
+                }
             }
         }
     }
