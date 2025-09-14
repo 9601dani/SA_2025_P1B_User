@@ -26,10 +26,4 @@ public class User {
     private UUID locationId;
 
 
-
-
-
-
-
-
 }

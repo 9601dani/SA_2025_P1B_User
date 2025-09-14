@@ -4,6 +4,8 @@ import com.danimo.user.information.domain.UserInformationId;
 import com.danimo.user.user.domain.User;
 import com.danimo.user.information.domain.UserInformation;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
 import lombok.Value;
 
 import java.math.BigDecimal;

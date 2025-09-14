@@ -10,4 +10,9 @@ class UserApplicationTests {
 	void contextLoads() {
 	}
 
+	@Test
+	void testMain(){
+		UserApplication.main(new String[]{});
+	}
+
 }

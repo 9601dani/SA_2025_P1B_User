@@ -16,8 +16,9 @@ public class CreateUserInformationUseCase implements CreatingUserInformationInpu
     private FindingUserByUsernameOutputPort findingUserByUsernameOutputPort;
     private StoringUserInformationOutputPort storingUserInformationOutputPort;
 
-    public CreateUserInformationUseCase(FindingUserByUsernameOutputPort findingUserByUsernameOutputPort) {
+    public CreateUserInformationUseCase(FindingUserByUsernameOutputPort findingUserByUsernameOutputPort, StoringUserInformationOutputPort storingUserInformationOutputPort) {
         this.findingUserByUsernameOutputPort = findingUserByUsernameOutputPort;
+        this.storingUserInformationOutputPort = storingUserInformationOutputPort;
     }
 
     @Override

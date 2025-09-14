@@ -24,13 +24,17 @@ public class UpdateUserInformationUseCase implements UpdatingUserInformationInpu
     private final StoringUserInformationOutputPort storingUserInformationOutputPort;
     private final StoringUserOutputPort storingUserOutputPort;
     private final FindingUserByUsernameOutputPort findingUserByUsernameOutputPort;
+    private final PasswordEncoderPort passwordEncoderPort;
 
     public UpdateUserInformationUseCase(FindingUserInformationOutputPort findingUserInformationOutputPort, StoringUserInformationOutputPort storingUserInformationOutputPort,
-                                        StoringUserOutputPort storingUserOutputPort, FindingUserByUsernameOutputPort findingUserByUsernameOutputPort) {
+                                        StoringUserOutputPort storingUserOutputPort, FindingUserByUsernameOutputPort findingUserByUsernameOutputPort,
+                                        PasswordEncoderPort passwordEncoderPort) {
         this.findingUserInformationOutputPort = findingUserInformationOutputPort;
         this.storingUserInformationOutputPort = storingUserInformationOutputPort;
         this.storingUserOutputPort = storingUserOutputPort;
         this.findingUserByUsernameOutputPort = findingUserByUsernameOutputPort;
+        this.passwordEncoderPort = passwordEncoderPort;
+
     }
 
     @Override
@@ -73,20 +77,19 @@ public class UpdateUserInformationUseCase implements UpdatingUserInformationInpu
         return this.storingUserInformationOutputPort.save(userInformation);
     }
 
-    private static String getNewPassword(UpdateUserInformationDto updateUserInformationDto, User user) {
+    private String getNewPassword(UpdateUserInformationDto updateUserInformationDto, User user) {
         String newPassword = user.getPassword();
 
-        PasswordEncoderPort passwordEncoder = new BCryptPasswordEncoderAdapter();
-
-        if (!passwordEncoder.matches(updateUserInformationDto.getOldPassword(), user.getPassword())) {
+        if (!passwordEncoderPort.matches(updateUserInformationDto.getOldPassword(), user.getPassword())) {
             throw new CredentialsDoesntSame("La contrasena anterior es incorrecta");
         }
-        if (updateUserInformationDto.getNewPassword() != null) {
-            newPassword = passwordEncoder.encode(updateUserInformationDto.getNewPassword());
 
+        if (updateUserInformationDto.getNewPassword() != null) {
+            newPassword = passwordEncoderPort.encode(updateUserInformationDto.getNewPassword());
         }
 
         return newPassword;
     }
+
 
 }
