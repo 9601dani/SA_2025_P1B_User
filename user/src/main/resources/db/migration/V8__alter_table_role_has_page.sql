@@ -1,0 +1,2 @@
+ALTER TABLE role_has_page
+MODIFY id INT AUTO_INCREMENT;

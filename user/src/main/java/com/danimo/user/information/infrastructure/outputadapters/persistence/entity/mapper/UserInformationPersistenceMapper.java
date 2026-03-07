@@ -7,6 +7,8 @@ import com.danimo.user.user.infrastrcture.outputadapters.persistence.entity.User
 import com.danimo.user.information.infrastructure.outputadapters.persistence.entity.UserInformationDbEntity;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
+
 @Component
 public class UserInformationPersistenceMapper {
 
@@ -25,9 +27,7 @@ public class UserInformationPersistenceMapper {
                         dbEntity.getUser().getUsername(),
                         dbEntity.getUser().getPassword(),
                         dbEntity.getUser().getEmail(),
-                        dbEntity.getUser().getModule(),
                         dbEntity.getUser().isFirstTime(),
-                        dbEntity.getUser().isManager(),
                         dbEntity.getUser().isEnabled(),
                         dbEntity.getUser().getLocationId()
                 ));
@@ -48,11 +48,10 @@ public class UserInformationPersistenceMapper {
                         userInformation.getUser().getUsername(),
                         userInformation.getUser().getPassword(),
                         userInformation.getUser().getEmail(),
-                        userInformation.getUser().getModule(),
                         userInformation.getUser().isFirstTime(),
-                        userInformation.getUser().isManager(),
                         userInformation.getUser().isEnabled(),
-                        userInformation.getUser().getLocationId()
+                        userInformation.getUser().getLocationId(),
+                        new ArrayList<>()
                 ));
     }
 }

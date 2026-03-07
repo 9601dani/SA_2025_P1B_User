@@ -60,7 +60,7 @@ class UserControllerAdapterTest {
     @BeforeEach
     void setUp() {
         sampleUser = new User(UUID.randomUUID(), "john.doe", "pass", "john@example.com",
-                "module1", true, false, true, UUID.randomUUID());
+                 true, false, UUID.randomUUID());
     }
 
     @Test
@@ -69,9 +69,7 @@ class UserControllerAdapterTest {
                 sampleUser.getUsername(),
                 "password",
                 sampleUser.getEmail(),
-                sampleUser.getModule(),
                 BigDecimal.valueOf(100),
-                false,
                 sampleUser.getLocationId()
         );
 

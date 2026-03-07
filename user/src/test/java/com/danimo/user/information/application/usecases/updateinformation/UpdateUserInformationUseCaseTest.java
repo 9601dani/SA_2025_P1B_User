@@ -39,10 +39,8 @@ public class UpdateUserInformationUseCaseTest {
             "testuser",
             OLD_PASSWORD,
             "test@example.com",
-            "MODULE",
             true,
             false,
-            true,
             UUID.randomUUID()
     );
 

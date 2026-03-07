@@ -37,7 +37,7 @@ class UpdateEnabledStateUseCaseTest {
 
         UpdateEnabledStateDto dto = new UpdateEnabledStateDto(NEW_ENABLED, USERNAME);
 
-        User user = new User(UUID.randomUUID(), USERNAME, "pass", "john@example.com", null, true, false, true, null);
+        User user = new User(UUID.randomUUID(), USERNAME, "pass", "john@example.com", true, false, null);
 
         when(outputPort.updateEnabledState(dto)).thenReturn(Optional.of(user));
 

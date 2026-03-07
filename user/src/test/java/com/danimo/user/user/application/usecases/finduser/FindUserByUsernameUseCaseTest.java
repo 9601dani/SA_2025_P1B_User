@@ -28,7 +28,7 @@ class FindUserByUsernameUseCaseTest {
     void givenExistingUsername_whenFindByUsername_thenReturnUser() {
         // Arrange
         final String USERNAME = "john.doe";
-        User user = new User(UUID.randomUUID(), USERNAME, "pass", "john@example.com", null, true, false, true, null);
+        User user = new User(UUID.randomUUID(), USERNAME, "pass", "john@example.com", true, false, null);
         when(findingByIdPort.findByUsername(USERNAME)).thenReturn(Optional.of(user));
 
         // Act
@@ -46,7 +46,7 @@ class FindUserByUsernameUseCaseTest {
     void givenExistingEmail_whenFindByUsername_thenReturnUser() {
         // Arrange
         final String EMAIL = "jane@example.com";
-        User user = new User(UUID.randomUUID(), "jane.doe", "pass", EMAIL, null, true, false, true, null);
+        User user = new User(UUID.randomUUID(), "jane.doe", "pass", EMAIL, true, false, null);
         when(findingByIdPort.findByUsername(EMAIL)).thenReturn(Optional.empty());
         when(findingByIdPort.findByEmail(EMAIL)).thenReturn(Optional.of(user));
 
@@ -65,7 +65,7 @@ class FindUserByUsernameUseCaseTest {
     void givenExistingId_whenFindByUsername_thenReturnUser() {
         // Arrange
         final String ID = UUID.randomUUID().toString();
-        User user = new User(UUID.fromString(ID), "bob.doe", "pass", "bob@example.com", null, true, false, true, null);
+        User user = new User(UUID.fromString(ID), "bob.doe", "pass", "bob@example.com", true, false, null);
         when(findingByIdPort.findByUsername(ID)).thenReturn(Optional.empty());
         when(findingByIdPort.findByEmail(ID)).thenReturn(Optional.empty());
         when(findingByIdPort.findById(ID)).thenReturn(Optional.of(user));

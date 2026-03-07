@@ -3,15 +3,15 @@ package com.danimo.user.user.infrastrcture.inputadapters.rest;
 import com.danimo.user.common.application.exceptions.InactiveAccountException;
 import com.danimo.user.common.application.exceptions.UserNotFoundException;
 import com.danimo.user.common.infrastructure.annotations.WebAdapter;
-import com.danimo.user.information.application.inputports.UpdatingUserInformationInputPort;
+import com.danimo.user.module.application.inputports.GetModulesByUserIdInputPort;
+import com.danimo.user.module.domain.Module;
+import com.danimo.user.page.application.inputports.FindPageByModuleInputPort;
+import com.danimo.user.page.domain.Page;
 import com.danimo.user.user.application.inputports.CreatingUserIputPort;
 import com.danimo.user.user.application.inputports.FindingUserByUsernameInputPort;
 import com.danimo.user.user.application.inputports.UpdatingEnabledStateInputPort;
 import com.danimo.user.user.application.outputports.persistence.FindingAllEmployesOutputPort;
-import com.danimo.user.user.application.outputports.persistence.FindingUserByUsernameOutputPort;
-import com.danimo.user.user.application.outputports.persistence.UpdatingEnabledStateOutputPort;
 import com.danimo.user.user.application.usecases.createuser.CreateUserDto;
-import com.danimo.user.user.application.usecases.updateenabled.UpdateEnabledStateDto;
 import com.danimo.user.user.domain.User;
 import com.danimo.user.user.infrastrcture.inputadapters.rest.dto.*;
 import io.swagger.v3.oas.annotations.Operation;
@@ -29,8 +29,9 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
+import java.util.Map;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Tag(name = "Users", description = "Operaciones relacionadas a los usuarios")
 @RestController
@@ -42,14 +43,18 @@ public class UserControllerAdapter {
     private final CreatingUserIputPort creatingUserIputPort;
     private final FindingAllEmployesOutputPort findingAllEmployes;
     private final UpdatingEnabledStateInputPort updatingEnabledStateInputPort ;
+    private final GetModulesByUserIdInputPort  getModulesByUserIdInputPort;
+    private final FindPageByModuleInputPort findPageByModuleInputPort;
 
     @Autowired
     public UserControllerAdapter(FindingUserByUsernameInputPort findingUserByUsernameInputPort, CreatingUserIputPort creatingUserIputPort
-    , FindingAllEmployesOutputPort findingAllEmployes, UpdatingEnabledStateInputPort updatingEnabledStateInputPort) {
+    , FindingAllEmployesOutputPort findingAllEmployes, UpdatingEnabledStateInputPort updatingEnabledStateInputPort, GetModulesByUserIdInputPort getModulesByUserIdInputPort, FindPageByModuleInputPort findPageByModuleInputPort) {
         this.findingUserByUsernameInputPort = findingUserByUsernameInputPort;
         this.creatingUserIputPort = creatingUserIputPort;
         this.findingAllEmployes = findingAllEmployes;
         this.updatingEnabledStateInputPort = updatingEnabledStateInputPort;
+        this.getModulesByUserIdInputPort = getModulesByUserIdInputPort;
+        this.findPageByModuleInputPort = findPageByModuleInputPort;
     }
 
     @Operation(
@@ -182,6 +187,46 @@ public class UserControllerAdapter {
             findingUserByUsernameInputPort.findByUsername(id);
             return ResponseEntity.ok().build();
         } catch (UserNotFoundException e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @Operation(
+            summary = "Obtener Modulos del usuario",
+            description = "Devuelve los modulos y las paginas a las que el usuario"
+    )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Modulos encontrados"),
+            @ApiResponse(responseCode = "404", description = "Modulos no encontrados")
+    })
+    @RequestMapping(method = RequestMethod.GET, path = "/pages/{id}")
+    public ResponseEntity<List<ModuleResponse>> getModulesByUserId(@PathVariable String id) {
+        try {
+            System.out.println("RECIBI PETICION");
+            List<Page> pages = findPageByModuleInputPort
+                    .findByUserId(UUID.fromString(id));
+
+            System.out.println("RECIBI PETICION 2 "+ pages.getFirst());
+            Map<Integer, List<Page>> pagesByModule = pages.stream()
+                    .collect(Collectors.groupingBy(page -> page.getModule().getId()));
+
+            List<ModuleResponse> response = pagesByModule.values().stream()
+                    .map(modulePages -> {
+                        Module module = modulePages.getFirst().getModule();
+
+                        List<PageResponse> pageResponses = modulePages.stream()
+                                .map(PageResponse::fromDomain)
+                                .toList();
+
+                        return ModuleResponse.fromDomain(module, pageResponses);
+                    })
+                    .toList();
+
+            return ResponseEntity.ok(response);
+        }catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().build();
+        }
+        catch (UserNotFoundException e) {
             return ResponseEntity.notFound().build();
         }
     }

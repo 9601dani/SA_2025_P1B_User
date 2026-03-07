@@ -35,9 +35,7 @@ public class FindUserInformationUseCaseTest {
             USERNAME,
             PASSWORD,
             EMAIL,
-            MODULE,
             FIRST_TIME,
-            MANAGER,
             ENABLED,
             LOCATION_ID
     );

@@ -22,10 +22,15 @@ spring:
     show-sql: true
     properties:
       hibernate:
-        dialect: org.hibernate.dialect.MariaDBDialect
-
+        # dialect: org.hibernate.dialect.MariaDBDialect
+        format_sql: true
   flyway:
     enabled: true
+
+  # Delete from deploy
+  #h2:
+    #console:
+     #enabled: true
 
 springdoc:
   swagger-ui:

@@ -12,13 +12,11 @@ public class CreateUserRequest {
     private final String username;
     private final String password;
     private final String email;
-    private final String module;
     private final BigDecimal salaryPerWeek;
-    private final boolean isAdmin;
     private final String locationId;
 
     public CreateUserDto toDomain(){
-        return new CreateUserDto(username, password, email, module, salaryPerWeek,isAdmin, UUID.fromString(locationId));
+        return new CreateUserDto(username, password, email, salaryPerWeek, UUID.fromString(locationId));
     }
 
 }

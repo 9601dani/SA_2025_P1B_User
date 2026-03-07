@@ -1,0 +1,2 @@
+ALTER TABLE user_has_role
+MODIFY id INT AUTO_INCREMENT;

@@ -12,17 +12,14 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-class UserRepositoryOutputAdapterTest {
+class userRepositoryOutputAdapterTest {
 
     @Mock
     private UserDbEntityJpaRepository userDbEntityJpaRepository;
@@ -44,10 +41,10 @@ class UserRepositoryOutputAdapterTest {
         locationId = UUID.randomUUID();
 
         sampleUser = new User(userId, "john.doe", "password123", "john@example.com",
-                "module1", true, false, true, locationId);
+                true, true, locationId);
 
         sampleUserDbEntity = new UserDbEntity(userId, "john.doe", "password123", "john@example.com",
-                "module1", true, false, true, locationId);
+                 true, false, locationId,new ArrayList<>());
     }
 
     @Test
@@ -185,10 +182,10 @@ class UserRepositoryOutputAdapterTest {
     void givenUsersExist_whenFindAllEmployees_thenReturnUsersList() {
         // Arrange
         UserDbEntity secondUserDbEntity = new UserDbEntity(UUID.randomUUID(), "jane.doe", "pass456",
-                "jane@example.com", "module2", false, true, true, UUID.randomUUID());
+                "jane@example.com", false, true, UUID.randomUUID(), new ArrayList<>());
 
         User secondUser = new User(UUID.randomUUID(), "jane.doe", "pass456", "jane@example.com",
-                "module2", false, true, true, UUID.randomUUID());
+                 false, true, UUID.randomUUID());
 
         List<UserDbEntity> userDbEntities = Arrays.asList(sampleUserDbEntity, secondUserDbEntity);
 
@@ -267,9 +264,7 @@ class UserRepositoryOutputAdapterTest {
         assertEquals(sampleUserDbEntity.getUsername(), result.getUsername());
         assertEquals(sampleUserDbEntity.getPassword(), result.getPassword());
         assertEquals(sampleUserDbEntity.getEmail(), result.getEmail());
-        assertEquals(sampleUserDbEntity.getModule(), result.getModule());
         assertEquals(sampleUserDbEntity.isFirstTime(), result.isFirstTime());
-        assertEquals(sampleUserDbEntity.isManager(), result.isManager());
         assertEquals(sampleUserDbEntity.isEnabled(), result.isEnabled());
         assertEquals(sampleUserDbEntity.getLocationId(), result.getLocationId());
     }
@@ -299,9 +294,7 @@ class UserRepositoryOutputAdapterTest {
         assertEquals(sampleUser.getUsername(), result.getUsername());
         assertEquals(sampleUser.getPassword(), result.getPassword());
         assertEquals(sampleUser.getEmail(), result.getEmail());
-        assertEquals(sampleUser.getModule(), result.getModule());
         assertEquals(sampleUser.isFirstTime(), result.isFirstTime());
-        assertEquals(sampleUser.isManager(), result.isManager());
         assertEquals(sampleUser.isEnabled(), result.isEnabled());
         assertEquals(sampleUser.getLocationId(), result.getLocationId());
     }

@@ -21,10 +21,8 @@ public class CreateUserDto {
     private String password;
     @Email
     private String email;
-    private String module;
     private boolean firstTime = true ;
     private BigDecimal salaryPerWeek;
-    private boolean manager;
     private UUID locationId;
 
     public User toDomain(){
@@ -33,9 +31,7 @@ public class CreateUserDto {
                 .username(username)
                 .password(password)
                 .email(email)
-                .module(module)
                 .firstTime(firstTime)
-                .manager(manager)
                 .locationId(locationId)
                 .build();
     }
@@ -46,9 +42,7 @@ public class CreateUserDto {
                 .username(username)
                 .password(password)
                 .email(email)
-                .module(module)
                 .firstTime(firstTime)
-                .manager(manager)
                 .enabled(true)
                 .locationId(locationId)
                 .build();

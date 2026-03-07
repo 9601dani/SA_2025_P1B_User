@@ -66,15 +66,13 @@ class UserControllerAdapterTest {
     void setUp() {
         userId = UUID.randomUUID();
         locationId = UUID.randomUUID();
-        sampleUser = new User(userId, "john.doe", "password123", "john@example.com",
-                "module1", true, false, true, locationId);
+        sampleUser = new User(userId, "john.doe", "password123", "john@example.com", true, false, locationId);
     }
 
     @Test
     void givenValidRequest_whenCreateUser_thenReturnsCreatedUserResponse() throws Exception {
         // Arrange
-        CreateUserRequest request = new CreateUserRequest("john.doe", "password123", "john@example.com",
-                "module1", BigDecimal.valueOf(1000), false, locationId.toString());
+        CreateUserRequest request = new CreateUserRequest("john.doe", "password123", "john@example.com", BigDecimal.valueOf(1000), locationId.toString());
 
         when(creatingUserIputPort.createUser(any(CreateUserDto.class))).thenReturn(sampleUser);
 
@@ -88,7 +86,6 @@ class UserControllerAdapterTest {
                 .andExpect(jsonPath("$.id", is(sampleUser.getId().toString())))
                 .andExpect(jsonPath("$.username", is(sampleUser.getUsername())))
                 .andExpect(jsonPath("$.email", is(sampleUser.getEmail())))
-                .andExpect(jsonPath("$.module", is(sampleUser.getModule())))
                 .andExpect(jsonPath("$.firstTime", is(sampleUser.isFirstTime())));
 
         ArgumentCaptor<CreateUserDto> captor = ArgumentCaptor.forClass(CreateUserDto.class);
@@ -109,9 +106,7 @@ class UserControllerAdapterTest {
                 .andExpect(jsonPath("$.username", is(sampleUser.getUsername())))
                 .andExpect(jsonPath("$.password", is(sampleUser.getPassword())))
                 .andExpect(jsonPath("$.email", is(sampleUser.getEmail())))
-                .andExpect(jsonPath("$.module", is(sampleUser.getModule())))
                 .andExpect(jsonPath("$.firstTime", is(sampleUser.isFirstTime())))
-                .andExpect(jsonPath("$.manager", is(sampleUser.isManager())))
                 .andExpect(jsonPath("$.enabled", is(sampleUser.isEnabled())))
                 .andExpect(jsonPath("$.locationId", is(sampleUser.getLocationId().toString())));
 
@@ -135,7 +130,7 @@ class UserControllerAdapterTest {
     void givenUsersExist_whenFindAllUsers_thenReturnsUsersList() throws Exception {
         // Arrange
         User secondUser = new User(UUID.randomUUID(), "jane.doe", "password456", "jane@example.com",
-                "module2", false, true, true, UUID.randomUUID());
+                false, true, UUID.randomUUID());
 
         List<User> users = Arrays.asList(sampleUser, secondUser);
         when(findingAllEmployes.findAllEmployes()).thenReturn(users);
@@ -147,8 +142,6 @@ class UserControllerAdapterTest {
                 .andExpect(jsonPath("$[0].id", is(sampleUser.getId().toString())))
                 .andExpect(jsonPath("$[0].username", is(sampleUser.getUsername())))
                 .andExpect(jsonPath("$[0].email", is(sampleUser.getEmail())))
-                .andExpect(jsonPath("$[0].module", is(sampleUser.getModule())))
-                .andExpect(jsonPath("$[0].manager", is(sampleUser.isManager())))
                 .andExpect(jsonPath("$[0].enabled", is(sampleUser.isEnabled())))
                 .andExpect(jsonPath("$[0].locationId", is(sampleUser.getLocationId().toString())))
                 .andExpect(jsonPath("$[1].id", is(secondUser.getId().toString())))
@@ -175,7 +168,7 @@ class UserControllerAdapterTest {
         // Arrange
         UpdateUserEnabledStateRequest request = new UpdateUserEnabledStateRequest("john.doe", true);
         User enabledUser = new User(userId, "john.doe", "password123", "john@example.com",
-                "module1", true, false, true, locationId);
+                 true, false, locationId);
 
         when(updatingEnabledStateInputPort.updateEnabledState(any(UpdateEnabledStateDto.class)))
                 .thenReturn(enabledUser);
@@ -190,8 +183,6 @@ class UserControllerAdapterTest {
                 .andExpect(jsonPath("$.id", is(enabledUser.getId().toString())))
                 .andExpect(jsonPath("$.username", is(enabledUser.getUsername())))
                 .andExpect(jsonPath("$.email", is(enabledUser.getEmail())))
-                .andExpect(jsonPath("$.module", is(enabledUser.getModule())))
-                .andExpect(jsonPath("$.manager", is(enabledUser.isManager())))
                 .andExpect(jsonPath("$.enabled", is(true)))
                 .andExpect(jsonPath("$.locationId", is(enabledUser.getLocationId().toString())));
 
@@ -206,7 +197,7 @@ class UserControllerAdapterTest {
         // Arrange
         UpdateUserEnabledStateRequest request = new UpdateUserEnabledStateRequest("john.doe", false);
         User disabledUser = new User(userId, "john.doe", "password123", "john@example.com",
-                "module1", true, false, false, locationId);
+                 true, false, locationId);
 
         when(updatingEnabledStateInputPort.updateEnabledState(any(UpdateEnabledStateDto.class)))
                 .thenReturn(disabledUser);
@@ -253,7 +244,7 @@ class UserControllerAdapterTest {
     void givenValidCreateUserRequest_whenConvertToDomain_thenReturnsCorrectDto() {
         // Arrange
         CreateUserRequest request = new CreateUserRequest("test.user", "password123",
-                "test@example.com", "testModule", BigDecimal.valueOf(2000), true, locationId.toString());
+                "test@example.com", BigDecimal.valueOf(2000), locationId.toString());
 
         // Act
         CreateUserDto dto = request.toDomain();
@@ -262,7 +253,6 @@ class UserControllerAdapterTest {
         assertEquals("test.user", dto.getUsername());
         assertEquals("password123", dto.getPassword());
         assertEquals("test@example.com", dto.getEmail());
-        assertEquals("testModule", dto.getModule());
         assertEquals(BigDecimal.valueOf(2000), dto.getSalaryPerWeek());
         assertEquals(locationId, dto.getLocationId());
     }
@@ -276,7 +266,6 @@ class UserControllerAdapterTest {
         assertEquals(sampleUser.getId(), response.getId());
         assertEquals(sampleUser.getUsername(), response.getUsername());
         assertEquals(sampleUser.getEmail(), response.getEmail());
-        assertEquals(sampleUser.getModule(), response.getModule());
         assertEquals(sampleUser.isFirstTime(), response.isFirstTime());
     }
 
@@ -290,9 +279,7 @@ class UserControllerAdapterTest {
         assertEquals(sampleUser.getUsername(), response.getUsername());
         assertEquals(sampleUser.getPassword(), response.getPassword());
         assertEquals(sampleUser.getEmail(), response.getEmail());
-        assertEquals(sampleUser.getModule(), response.getModule());
         assertEquals(sampleUser.isFirstTime(), response.isFirstTime());
-        assertEquals(sampleUser.isManager(), response.isManager());
         assertEquals(sampleUser.isEnabled(), response.isEnabled());
         assertEquals(sampleUser.getLocationId().toString(), response.getLocationId());
     }
@@ -306,8 +293,6 @@ class UserControllerAdapterTest {
         assertEquals(sampleUser.getId().toString(), response.getId());
         assertEquals(sampleUser.getUsername(), response.getUsername());
         assertEquals(sampleUser.getEmail(), response.getEmail());
-        assertEquals(sampleUser.getModule(), response.getModule());
-        assertEquals(sampleUser.isManager(), response.isManager());
         assertEquals(sampleUser.isEnabled(), response.isEnabled());
         assertEquals(sampleUser.getLocationId().toString(), response.getLocationId());
     }

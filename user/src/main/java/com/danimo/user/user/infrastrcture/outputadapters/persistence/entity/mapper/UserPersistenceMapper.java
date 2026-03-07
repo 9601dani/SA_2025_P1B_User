@@ -4,6 +4,8 @@ import com.danimo.user.user.domain.User;
 import com.danimo.user.user.infrastrcture.outputadapters.persistence.entity.UserDbEntity;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
+
 @Component
 public class UserPersistenceMapper {
 
@@ -13,9 +15,7 @@ public class UserPersistenceMapper {
                 dbEntity.getUsername(),
                 dbEntity.getPassword(),
                 dbEntity.getEmail(),
-                dbEntity.getModule(),
                 dbEntity.isFirstTime(),
-                dbEntity.isManager(),
                 dbEntity.isEnabled(),
                 dbEntity.getLocationId());
     }
@@ -26,10 +26,9 @@ public class UserPersistenceMapper {
                 user.getUsername(),
                 user.getPassword(),
                 user.getEmail(),
-                user.getModule(),
                 user.isFirstTime(),
-                user.isManager(),
                 user.isEnabled(),
-                user.getLocationId());
+                user.getLocationId(),
+                new ArrayList<>());
     }
 }

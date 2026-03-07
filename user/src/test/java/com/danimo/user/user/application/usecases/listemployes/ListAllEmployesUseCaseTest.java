@@ -1,6 +1,7 @@
-package com.danimo.user.user.application.usecases.listallemployes;
+package com.danimo.user.user.application.usecases.listemployes;
 
 import com.danimo.user.user.application.outputports.persistence.FindingAllEmployesOutputPort;
+import com.danimo.user.user.application.usecases.listallemployes.ListAllEmployesUseCase;
 import com.danimo.user.user.domain.User;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -28,8 +29,8 @@ class ListAllEmployesUseCaseTest {
     @Test
     void givenEmployesExist_whenListAllEmployes_thenReturnList() {
         // Arrange
-        User user1 = new User(UUID.randomUUID(), "john.doe", "pass", "john@example.com", null, true, false, true, null);
-        User user2 = new User(UUID.randomUUID(), "jane.doe", "pass", "jane@example.com", null, true, false, true, null);
+        User user1 = new User(UUID.randomUUID(), "john.doe", "pass", "john@example.com", true, false, null);
+        User user2 = new User(UUID.randomUUID(), "jane.doe", "pass", "jane@example.com", true, false, null);
 
         List<User> employes = Arrays.asList(user1, user2);
 

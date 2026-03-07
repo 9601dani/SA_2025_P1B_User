@@ -1,11 +1,11 @@
 package com.danimo.user.user.infrastrcture.outputadapters.persistence.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import com.danimo.user.role.infrastructure.outputadapters.persistence.entity.RoleDbEntity;
+import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -26,14 +26,18 @@ public class UserDbEntity {
     @Column
     private String email;
     @Column
-    private String module;
-    @Column
     private boolean firstTime;
-    @Column
-    private boolean manager;
     @Column
     private boolean enabled;
     @Column(columnDefinition = "CHAR(36)")
     private UUID locationId;
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "user_has_role",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id")
+    )
+    private List<RoleDbEntity> roles = new ArrayList<>();
 
 }

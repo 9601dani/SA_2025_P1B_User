@@ -55,7 +55,7 @@ class CreateUserUseCaseTest {
         final BigDecimal SALARY = BigDecimal.valueOf(100.0);
 
         CreateUserDto dto = new CreateUserDto(
-                USERNAME, "password", EMAIL, null, SALARY, false, LOCATION_ID
+                USERNAME, "password", EMAIL, SALARY, LOCATION_ID
         );
 
         when(findingUserByUsernameOutputPort.findByUsername(USERNAME)).thenReturn(Optional.of(User.builder().build()));
@@ -80,7 +80,7 @@ class CreateUserUseCaseTest {
         final BigDecimal SALARY = BigDecimal.valueOf(150.0);
 
         CreateUserDto dto = new CreateUserDto(
-                USERNAME, "password", EMAIL, null, SALARY, false, LOCATION_ID
+                USERNAME, "password", EMAIL, SALARY, LOCATION_ID
         );
 
         when(findingUserByUsernameOutputPort.findByUsername(USERNAME)).thenReturn(Optional.empty());
@@ -103,7 +103,7 @@ class CreateUserUseCaseTest {
         final BigDecimal SALARY = BigDecimal.valueOf(200.0);
 
         CreateUserDto dto = new CreateUserDto(
-                USERNAME, "password", EMAIL, null, SALARY, false, LOCATION_ID
+                USERNAME, "password", EMAIL, SALARY, LOCATION_ID
         );
 
         when(findingUserByUsernameOutputPort.findByUsername(USERNAME)).thenReturn(Optional.empty());
@@ -128,7 +128,7 @@ class CreateUserUseCaseTest {
         final BigDecimal SALARY = BigDecimal.valueOf(300.0);
 
         CreateUserDto dto = new CreateUserDto(
-                USERNAME, PASSWORD, EMAIL, null,  SALARY, false, LOCATION_ID
+                USERNAME, PASSWORD, EMAIL,  SALARY ,LOCATION_ID
         );
 
         when(findingUserByUsernameOutputPort.findByUsername(USERNAME)).thenReturn(Optional.empty());
@@ -136,7 +136,7 @@ class CreateUserUseCaseTest {
         when(existLocationOutputPort.existLocation(LOCATION_ID)).thenReturn(true);
         when(passwordEncoder.encode(PASSWORD)).thenReturn(HASHED_PASSWORD);
 
-        User savedUser = new User(UUID.randomUUID(), USERNAME, HASHED_PASSWORD, EMAIL, null, true, false, true, LOCATION_ID);
+        User savedUser = new User(UUID.randomUUID(), USERNAME, HASHED_PASSWORD, EMAIL, true, false, LOCATION_ID);
         when(storingUserOutputPort.save(any(User.class))).thenReturn(savedUser);
 
         // Act
