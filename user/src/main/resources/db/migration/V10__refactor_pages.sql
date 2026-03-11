@@ -1,0 +1,7 @@
+ALTER TABLE page
+ADD COLUMN icon VARCHAR(100) NULL,
+ADD COLUMN show_in_menu TINYINT(1) NOT NULL DEFAULT 1;
+
+UPDATE page SET show_in_menu = 0 WHERE id IN (2,3,12,16,17,33,34);
+
+UPDATE page SET show_in_menu = 0 WHERE id IN (15,25,41,45);

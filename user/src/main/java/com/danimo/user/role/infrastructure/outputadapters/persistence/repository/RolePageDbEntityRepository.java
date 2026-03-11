@@ -16,6 +16,8 @@ public interface RolePageDbEntityRepository extends JpaRepository<RolePageDbEnti
         JOIN u.roles r
         JOIN RolePageDbEntity rp ON rp.role = r
         WHERE u.id = :userId
+          AND rp.page.isAvailable = true
+          AND rp.page.showInMenu = true
     """)
     List<PageDbEntity> findPagesByUserId(@Param("userId") UUID userId);
 }

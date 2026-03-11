@@ -16,6 +16,8 @@ public class PagePersistenceMapper {
         return new Page(dbEntity.getId(),
                 dbEntity.getName(),
                 dbEntity.getPath(),
+                dbEntity.getIcon(),
+                dbEntity.getShowInMenu(),
                 modulePersistenceMapper.toDomain(dbEntity.getModule()),
                 dbEntity.getIsAvailable(),
                 dbEntity.getCreatedAt());
@@ -26,6 +28,8 @@ public class PagePersistenceMapper {
         return new PageDbEntity(page.getId(),
                 page.getName(),
                 page.getPath(),
+                page.getIcon(),
+                page.getShowInMenu(),
                 modulePersistenceMapper.toDbEntity(page.getModule()),
                 page.getIsAvailable(),
                 page.getCreatedAt(),

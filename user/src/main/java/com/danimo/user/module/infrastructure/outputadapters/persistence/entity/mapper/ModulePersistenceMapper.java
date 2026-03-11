@@ -15,6 +15,7 @@ public class ModulePersistenceMapper {
         return new Module(dbEntity.getId(),
                 dbEntity.getName(),
                 dbEntity.getDirection(),
+                dbEntity.getIcon(),
                 dbEntity.getIsAvailable(),
                 dbEntity.getCreatedAt());
     }
@@ -25,6 +26,7 @@ public class ModulePersistenceMapper {
         return new ModuleDbEntity(module.getId(),
                 module.getName(),
                 module.getDirection(),
+                module.getIcon(),
                 module.getIsAvailable(),
                 module.getCreatedAt(),
                 new ArrayList<>());

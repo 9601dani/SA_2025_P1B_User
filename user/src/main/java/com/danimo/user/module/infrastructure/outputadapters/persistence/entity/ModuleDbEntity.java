@@ -20,6 +20,7 @@ public class ModuleDbEntity {
     private Integer id;
     private String name;
     private String direction;
+    private String icon;
     @Column(columnDefinition = "TINYINT")
     private Boolean isAvailable;
     private LocalDateTime createdAt;

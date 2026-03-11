@@ -18,6 +18,8 @@ public class Page {
     private Integer id;
     private String name;
     private String path;
+    private String icon;
+    private Boolean showInMenu;
     private Module module;
     private Boolean isAvailable;
     private LocalDateTime createdAt;

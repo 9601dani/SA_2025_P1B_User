@@ -19,6 +19,7 @@ public class Module {
     private Integer id;
     private String name;
     private String direction;
+    private String icon;
     private Boolean isAvailable;
     private LocalDateTime createdAt;
 }

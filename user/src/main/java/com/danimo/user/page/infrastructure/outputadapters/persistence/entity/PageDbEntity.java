@@ -23,6 +23,11 @@ public class PageDbEntity {
     private Integer id;
     private String name;
     private String path;
+    @Column(length = 100)
+    private String icon;
+
+    @Column(name = "show_in_menu", columnDefinition = "TINYINT")
+    private Boolean showInMenu;
 
     @ManyToOne
     @JoinColumn(name = "FK_Module")
